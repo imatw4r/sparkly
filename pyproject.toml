@@ -1,0 +1,138 @@
+[tool.bandit]
+exclude = [".eggs", ".venv", "build", "cdk.out", "dist", "venv", "alembic"]
+
+[tool.black]
+target-version = ['py310']
+line-length = 119
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.eggs
+  | \.git
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | cdk.out
+  | dist
+  | venv
+  | alembic
+)/
+'''
+
+[tool.coverage.run]
+branch = true
+omit = ["*/setup.py"]
+
+[tool.coverage.report]
+fail_under = 80
+show_missing = true
+skip_covered = true
+exclude_lines = [
+  "pragma: no cover",
+  "def __repr__",
+  "def __str__",
+  "if TYPE_CHECKING",
+]
+
+[tool.flakeheaven]
+extended_default_ignore = []
+exclude = [
+  ".eggs",
+  ".git",
+  ".mypy_cache",
+  ".venv",
+  "build",
+  "cdk.out",
+  "dist",
+  "venv",
+  "alembic",
+]
+format = "grouped"
+max_complexity = 18
+show_source = true
+
+[tool.mypy]
+plugins = "pydantic.mypy"
+python_version = "3.10"
+mypy_path = "sparkly"
+exclude = "alembic"
+
+[tool.flakeheaven.plugins]
+"flake8-*" = [
+  "+*",
+  "-D100",
+  "-D103",
+  "-Q000",
+  "-D101",
+  "-D102",
+  "-D104",
+  "-D105",
+  "-D106",
+  "-D107",
+  "-DAR101",
+  "-WPS110", # Wrong variable name
+]
+"flake8-bandit" = ["-S101"]
+mccabe = ["+*"]
+pycodestyle = ["+*", "-E501", "-W503"]
+pyflakes = ["+*"]
+
+[tool.flakeheaven.exceptions."**/__init__.py"]
+pyflakes = ["-F401", "-F403"]
+
+[tool.isort]
+profile = "black"
+line_length = 119
+skip_gitignore = true
+extend_skip_glob = [
+  ".eggs/*",
+  ".venv/*",
+  "build/*",
+  "cdk.out/*",
+  "dist/*",
+  "venv/*",
+]
+
+[tool.pyright]
+exclude = [".pytest_cache", ".mypy_cache", ".vscode", "cdk.out/*", "alembic"]
+pythonVersion = "3.10"
+
+[tool.poetry]
+name = "sparkly"
+version = "0.0.1"
+description = "Vehicle Information API"
+authors = ["Bartek Krzys"]
+
+
+[tool.poetry.dependencies]
+python = "3.10.*"
+fastapi = "0.86.0"
+uvicorn = { extras = ["standard"], version = "0.19.0" }
+pydantic = "^1.10.2"
+SQLAlchemy = { extras = ["mypy"], version = "1.4.44" }
+asyncpg = "0.27.0"
+psycopg2 = "2.9.5"
+alembic = "1.8.1"
+sqlalchemy-easy-profile = "^1.2.1"
+greenlet = "^2.0.1"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "22.10.0"
+flakeheaven = "3.2.1"
+mypy = "0.990"
+isort = "^5.10.1"
+pyright = "^1.1.279"
+poethepoet = "^0.16.4"
+pytest = "^7.2.0"
+flake8-bandit = "3.0.0"
+pytest-cov = "^4.0.0"
+python-dotenv = "^0.21.0"
+
+
+[tool.poe.tasks]
+test = "pytest --cov=sparkly tests/"
+format = "black sparkly"
+lint = "flakeheaven lint sparkly"
+mypy = "mypy sparkly"
