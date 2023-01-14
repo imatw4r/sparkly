@@ -1,14 +1,13 @@
-from typing import Any
+from typing import TypeVar
 
 from pydantic.dataclasses import dataclass
 
+from .mixins import DataclassAsDictMixin
+
 
 @dataclass
-class Entity:
-    """Base class for an entity."""
+class Entity(DataclassAsDictMixin):
+    """Base class for all entities."""
 
-    id: Any
 
-    @staticmethod
-    def next_id() -> Any:
-        raise NotImplementedError()
+T_entity = TypeVar("T_entity", bound=Entity)

@@ -1,6 +1,10 @@
-from pydantic.dataclasses import dataclass
+from typing import TypeVar
+
+from pydantic import BaseModel
 
 
-@dataclass(frozen=True)
-class Query:
-    pass
+class Query(BaseModel):
+    """Base class for all commands."""
+
+
+T_query = TypeVar("T_query", bound=Query)
