@@ -53,11 +53,12 @@ max_complexity = 18
 show_source = true
 
 [tool.mypy]
+ignore_missing_imports = true
+
 plugins = "pydantic.mypy"
 python_version = "3.10"
 mypy_path = "sparkly"
 exclude = "alembic"
-
 [tool.flakeheaven.plugins]
 "flake8-*" = [
   "+*",
