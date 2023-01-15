@@ -90,6 +90,6 @@ class VehicleLog(domain.ValueObject):
 
     @root_validator()
     def validate(cls, values):
-        if values["shift_speed"].value is None and values["speed"].value is not None:
+        if values["shift_state"].value is None and values["speed"].value is not None:
             raise ValueError("Speed must be NULL when shift state is NULL")
         return values
