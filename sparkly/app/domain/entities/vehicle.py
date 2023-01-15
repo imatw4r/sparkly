@@ -2,14 +2,13 @@ import uuid
 
 from pydantic import UUID4, Field
 
+from sparkly.app.domain import value_objects
 from sparkly.app.seedwork import domain
-
-from ..value_objects import VehicleLog
 
 
 class Vehicle(domain.Entity):
     id: UUID4
-    data: list[VehicleLog] = Field(default_factory=list)
+    data: list[value_objects.VehicleLog] = Field(default_factory=list)
 
     @staticmethod
     def next_id() -> UUID4:
