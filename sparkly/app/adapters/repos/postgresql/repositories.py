@@ -1,8 +1,9 @@
 from pydantic import UUID4
 from sqlalchemy import insert
+
+from sparkly.app.adapters.db.postgres import models
 from sparkly.app.domain import entities, value_objects
 from sparkly.app.seedwork import adapters
-from sparkly.app.adapters.db.postgres import models
 
 
 class VehicleRepository(adapters.SQLAlchemyRepository[entities.Vehicle]):
@@ -17,5 +18,6 @@ class VehicleRepository(adapters.SQLAlchemyRepository[entities.Vehicle]):
             state_of_charge=log.state_of_charge.value,
             elevation=log.elevation.value,
             elevation_unit=log.elevation.unit,
+            shift_state=log.shift_state.value,
         )
         await self.session.execute(stmnt)
