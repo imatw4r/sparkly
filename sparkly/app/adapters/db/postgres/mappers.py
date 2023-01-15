@@ -13,7 +13,7 @@ def start_mappers():
         vehicle,
         properties={
             "logs": relationship(
-                vehicle_log_mapper, order_by=lambda: vehicle_log_mapper.timestamp, secondary=vehicle_to_logs
+                vehicle_log_mapper, order_by=lambda: vehicle_log_mapper.c.timestamp, secondary=vehicle_to_logs
             )
         },
     )
