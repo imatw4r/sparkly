@@ -1,1 +1,1 @@
-from .repositories import Repository, SQLAlchemyRepository, T_entity
+from .repositories import Repository, SQLAlchemyRepository, T_repository, T_sqlalchemy_repository

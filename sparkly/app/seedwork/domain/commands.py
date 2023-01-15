@@ -1,9 +1,10 @@
 from typing import TypeVar
 
-from pydantic import BaseModel
+import attrs
 
 
-class Command(BaseModel):
+@attrs.define()
+class Command:
     """Base class for a command."""
 
 
