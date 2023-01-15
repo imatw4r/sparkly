@@ -29,7 +29,6 @@ class Repository(abc.ABC, Generic[T_entity]):
 T_repo = TypeVar("T_repo", bound=Repository)
 
 
-
 class SQLAlchemyRepository(Repository[T_entity], Generic[T_entity]):
     def __init__(self, session: AsyncSession) -> None:
         self.session = session
