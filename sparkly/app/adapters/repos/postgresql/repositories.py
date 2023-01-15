@@ -5,7 +5,7 @@ from sparkly.app.seedwork import adapters
 from sparkly.app.adapters.db.postgres import models
 
 
-class VehicleLogsRepository(adapters.SQLAlchemyRepository[entities.Vehicle]):
+class VehicleRepository(adapters.SQLAlchemyRepository[entities.Vehicle]):
     async def add_log(self, vehicle_id: UUID4, log: value_objects.VehicleLog) -> None:
         stmnt = insert(models.vehicle_logs).values(
             vehicle_id=str(vehicle_id),

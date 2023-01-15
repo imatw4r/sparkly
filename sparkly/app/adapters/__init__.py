@@ -1,1 +1,1 @@
-from .repos import VehicleLogsRepository
+from .repos import VehicleRepository

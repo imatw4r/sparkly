@@ -1,1 +1,1 @@
-from .postgresql import VehicleLogsRepository
+from .postgresql import VehicleRepository
