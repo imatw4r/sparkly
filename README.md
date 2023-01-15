@@ -15,6 +15,7 @@ Tools to enforce code guidelines:
 * [flakeheaven](https://github.com/flakeheaven/flakeheaven)
 * [mypy](https://github.com/python/mypy)
 * [isort](https://github.com/PyCQA/isort)
+* [precommit](https://pre-commit.com/)
 
 # Development
 
@@ -28,4 +29,10 @@ Installing dependency
 
 ```bash
 poetry install
+```
+
+Activating precommit
+
+```bash
+pre-commit install
 ```
