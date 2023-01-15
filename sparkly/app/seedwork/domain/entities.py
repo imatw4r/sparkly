@@ -5,7 +5,7 @@ from pydantic.dataclasses import dataclass
 from .mixins import DataclassAsDictMixin
 
 
-@dataclass
+@dataclass()
 class Entity(DataclassAsDictMixin):
     """Base class for all entities."""
 

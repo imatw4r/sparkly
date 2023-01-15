@@ -6,7 +6,7 @@ from pydantic.dataclasses import dataclass
 from .mixins import DataclassAsDictMixin
 
 
-@dataclass(frozen=True, config=ConfigDict(use_enum_values=True))
+@dataclass(config=ConfigDict(use_enum_values=True, arbitrary_types_allowed=True))
 class ValueObject(DataclassAsDictMixin):
     """Base class for value objects."""
 

@@ -26,6 +26,7 @@ class CustomType(BaseModel):
 
     class Config:
         use_enum_values = True
+        arbitrary_types_allowed = True
         frozen = True
         json_encoders = {datetime: lambda dt: str(dt)}
 
@@ -79,7 +80,7 @@ class Elevation(CustomType):
     unit: ElevationUnitEnum = ElevationUnitEnum.meter
 
 
-@dataclass(frozen=True)
+@dataclass()
 class VehicleLog(domain.ValueObject):
     timestamp: Timestamp
     speed: VehicleSpeed
