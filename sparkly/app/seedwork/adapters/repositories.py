@@ -29,7 +29,8 @@ class SQLAlchemyRepository(Repository[T_entity], Generic[T_entity]):
     def __init__(self, session: AsyncSession) -> None:
         self.session = session
 
-    def add(self, entity: T_entity) -> T_entity:
+    # @TODO: Fix type: ignore mypy issue
+    def add(self, entity: T_entity) -> T_entity:  # type: ignore
         self.session.add(instance=entity)
         return entity
 
