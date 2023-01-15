@@ -1,0 +1,24 @@
+exclude: "pyproject.toml|poetry.lock|samples"
+
+repos:
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v0.991
+    hooks:
+      - id: mypy
+        language: system
+
+  - repo: local
+    hooks:
+      - id: format
+        name: format
+        entry: bash -c "poe format && git add -u"
+        language: python
+        types: [python]
+
+  - repo: local
+    hooks:
+      - id: lint
+        name: lint
+        entry: poe lint
+        language: python
+        types: [python]
