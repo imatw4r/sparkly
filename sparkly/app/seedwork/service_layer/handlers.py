@@ -5,8 +5,6 @@ from pydantic import BaseModel, Field
 
 from .. import domain
 
-# from ..domain import DomainEvent, T_command, T_domain_event, T_query
-
 T_handler_result = TypeVar("T_handler_result")
 
 
@@ -34,3 +32,27 @@ class CommandHandler(
 
 
 T_command_handler = TypeVar("T_command_handler", bound=CommandHandler)
+
+
+class QueryHandler(Generic[domain.T_query, T_handler_result], ABC):
+    @abstractmethod
+    async def __call__(
+        self,
+        query: domain.T_query,
+    ) -> HandlerResult[T_handler_result]:
+        ...
+
+
+T_query_handler = TypeVar("T_query_handler", bound=QueryHandler)
+
+
+class EventHandler(Generic[domain.T_domain_event, T_handler_result], ABC):
+    @abstractmethod
+    async def __call__(
+        self,
+        event: domain.T_domain_event,
+    ) -> HandlerResult[T_handler_result]:
+        ...
+
+
+T_event_handler = TypeVar("T_event_handler", bound=EventHandler)

@@ -5,4 +5,4 @@ from .entities import Entity
 
 @dataclass
 class Aggregate(Entity):
-    """Base class for an aggregate."""
+    """Base class for all aggregates."""
