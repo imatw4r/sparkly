@@ -10,7 +10,9 @@ from sparkly.app.seedwork import domain
 @dataclass()
 class Vehicle(domain.Entity):
     id: UUID4
-    logs: list[value_objects.VehicleLog] = Field(default_factory=list)
+
+    def __post_init__(self) -> None:
+        self.logs: list[value_objects.VehicleLog] = []
 
     @staticmethod
     def next_id() -> UUID4:

@@ -20,3 +20,8 @@ class VehicleLog:
 class AddVehicleLog(domain.Command):
     vehicle_id: UUID4
     log: VehicleLog
+
+
+@attrs.define()
+class AddVehicle(domain.Command):
+    vehicle_id: UUID4
