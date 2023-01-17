@@ -119,6 +119,8 @@ alembic = "1.8.1"
 sqlalchemy-easy-profile = "^1.2.1"
 greenlet = "^2.0.1"
 dependency-injector = "^4.41.0"
+colorlog = "^6.7.0"
+click = "^8.1.3"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -140,3 +142,4 @@ test = "pytest --cov=sparkly tests/"
 format = "black sparkly"
 lint = "flakeheaven lint sparkly"
 mypy = "mypy sparkly"
+load-data = "python sparkly/app/entrypoints/cli/main.py"
