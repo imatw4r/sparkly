@@ -4,7 +4,7 @@ from alembic import context
 from sqlalchemy import engine_from_config, pool
 
 from sparkly.config import settings
-from sparkly.app.adapters.db.postgres import *
+from sparkly.app.adapters.db.postgres.mappers import mapper_registry
 
 
 # this is the Alembic Config object, which provides
@@ -20,7 +20,7 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-target_metadata = metadata
+target_metadata = mapper_registry.metadata
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
@@ -57,7 +57,7 @@ def run_migrations_online() -> None:
     """
     configuration = config.get_section(name=config.config_ini_section)
     url = settings.db.get_sync_uri()
-    configuration["sqlalchemy.url"] = url.get_secret_value() # type: ignore
+    configuration["sqlalchemy.url"] = url.get_secret_value()  # type: ignore
     connectable = engine_from_config(
         configuration=configuration,
         prefix="sqlalchemy.",
