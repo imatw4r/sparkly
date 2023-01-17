@@ -1,0 +1,36 @@
+version: '3'
+services:
+  app:
+    image: sparkly
+    build:
+      context: .
+    volumes:
+      - "./sparkly/:/app/sparkly"
+    env_file: .env
+    ports:
+      - 8000:8000
+
+  pgadmin:
+    image: dpage/pgadmin4
+    user: root
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    ports:
+      - 5050:80
+
+    volumes:
+      - ./database:/var/lib/pgadmin
+
+  postgres:
+    image: postgres
+    ports:
+      - 5432:5432
+    env_file:
+      - .env
+    volumes:
+      - db:/var/lib/postgresql/data
+
+volumes:
+  db:
+    driver: local
