@@ -14,5 +14,5 @@ class GetVehicleLogs(
         query: queries.GetVehicleLogs,
     ) -> HandlerResult[list[value_objects.VehicleLog]]:
         async with self.uow:
-            results = await self.uow.repository.get_logs(vehicle_id=query.vehicle_id)
-            return HandlerResult(result=results)
+            logs = await self.uow.repository.get_logs(vehicle_id=query.vehicle_id)
+            return HandlerResult(result=logs)
