@@ -4,7 +4,9 @@ from sparkly.app.seedwork.service_layer import mixins
 from sparkly.app.service_layer import uow
 
 
-class AddVehicleLog(mixins.SQLAlchemyUnitOfWorkMixin[uow.VehicleUnitOfWork], service_layer.CommandHandler):
+class AddVehicleLog(
+    mixins.SQLAlchemyUnitOfWorkMixin[uow.VehicleUnitOfWork], service_layer.CommandHandler[commands.AddVehicleLog]
+):
     async def __call__(self, command: commands.AddVehicleLog) -> service_layer.HandlerResult[None]:
         attrs = factories.VehicleLogAttrs(
             timestamp=command.log.timestamp,

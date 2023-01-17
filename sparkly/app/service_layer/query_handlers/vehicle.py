@@ -1,18 +1,17 @@
-from sparkly.app.domain import queries
+from sparkly.app.domain import queries, value_objects
+from sparkly.app.seedwork import service_layer
 from sparkly.app.seedwork.service_layer import mixins
-from sparkly.app.seedwork.service_layer.handlers import HandlerResult, QueryHandler
 from sparkly.app.service_layer import uow
-from sparkly.app.domain import value_objects
 
 
 class GetVehicleLogs(
     mixins.SQLAlchemyUnitOfWorkMixin[uow.VehicleUnitOfWork],
-    QueryHandler[queries.GetVehicleLogs, None],
+    service_layer.QueryHandler[queries.GetVehicleLogs, list[value_objects.VehicleLog]],
 ):
     async def __call__(
         self,
         query: queries.GetVehicleLogs,
-    ) -> HandlerResult[list[value_objects.VehicleLog]]:
+    ) -> service_layer.HandlerResult[list[value_objects.VehicleLog]]:
         async with self.uow:
             logs = await self.uow.repository.get_logs(vehicle_id=query.vehicle_id)
-            return HandlerResult(result=logs)
+            return service_layer.HandlerResult(result=logs)
