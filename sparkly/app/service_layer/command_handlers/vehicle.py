@@ -31,7 +31,5 @@ class AddVehicle(
 
         async with self.uow:
             self.uow.repository.add(entity=vehicle)
-            try:
-                await self.uow.commit()
-            except 
+            await self.uow.commit()
             return service_layer.HandlerResult(result=None)

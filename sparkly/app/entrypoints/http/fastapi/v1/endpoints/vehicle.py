@@ -10,7 +10,10 @@ router = APIRouter(prefix="/vehicle_data")
 
 UNIT_OF_WORK = uow.VehicleUnitOfWork(session_factory=SESSION_FACTORY)
 COMMAND_BUS = message_buses.CommandBus(
-    handlers={commands.AddVehicleLog: command_handlers.AddVehicleLog(uow=UNIT_OF_WORK)}
+    handlers={
+        commands.AddVehicleLog: command_handlers.AddVehicleLog(uow=UNIT_OF_WORK),
+        commands.AddVehicle: command_handlers.AddVehicle(uow=UNIT_OF_WORK),
+    }
 )
 QUERY_BUS = message_buses.QueryBus(handlers={queries.GetVehicleLogs: query_handlers.GetVehicleLogs(uow=UNIT_OF_WORK)})
 
@@ -21,7 +24,17 @@ async def get_vehicle_logs(vehicle_id: UUID4):
     return {"data": result.result}
 
 
-class AddLogRequest(BaseModel):
+class CreateVehicleRequest(BaseModel):
+    vehicle_id: UUID4
+
+
+@router.post("/")
+async def create_vehicle(request: CreateVehicleRequest):
+    await COMMAND_BUS.handle(message=commands.AddVehicle(vehicle_id=request.vehicle_id))
+    return None
+
+
+class CreateVehicleLogRequest(BaseModel):
     timestamp: str
     speed: int | None
     odometer: float
@@ -31,7 +44,7 @@ class AddLogRequest(BaseModel):
 
 
 @router.post("/{vehicle_id}")
-async def create_vehicle_log(vehicle_id: UUID4, log: AddLogRequest):
+async def create_vehicle_log(vehicle_id: UUID4, log: CreateVehicleLogRequest):
     await COMMAND_BUS.handle(
         message=commands.AddVehicleLog(vehicle_id=vehicle_id, log=commands.VehicleLog(**log.dict()))
     )
