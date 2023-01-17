@@ -15,3 +15,6 @@ class Vehicle(domain.Entity):
     @staticmethod
     def next_id() -> UUID4:
         return uuid.uuid4()
+
+    def add_logs(self, logs: list[value_objects.VehicleLog]) -> None:
+        self.logs.extend(logs)
