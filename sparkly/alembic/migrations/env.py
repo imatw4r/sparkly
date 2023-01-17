@@ -3,8 +3,8 @@ from logging.config import fileConfig
 from alembic import context
 from sqlalchemy import engine_from_config, pool
 
-from sparkly.config import settings
-from sparkly.app.adapters.db.postgres.mappers import mapper_registry
+from sparkly.app.config import settings
+from sparkly.app.adapters.db.sqlalchemy.orm import mapper_registry
 
 
 # this is the Alembic Config object, which provides

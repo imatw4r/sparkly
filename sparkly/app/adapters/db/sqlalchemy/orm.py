@@ -66,7 +66,12 @@ vehicle_to_log_table = Table(
 )
 
 
-def start_mappers():
+def mappers() -> None:
+    """
+    Function responsible for mapping Domain objects into SQLAlchemy objects.
+    Executing this function allows us to execute normal SQLAlchemy
+    selects, inserts, etc on actual Domain objects.
+    """
     vehicle_log_mapper = mapper_registry.map_imperatively(class_=value_objects.VehicleLog, local_table=log_table)
     mapper_registry.map_imperatively(
         class_=entities.Vehicle,
