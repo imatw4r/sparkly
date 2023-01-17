@@ -1,27 +1,21 @@
-from fastapi import APIRouter
+from dependency_injector.wiring import Provide, inject
+from fastapi import APIRouter, Depends
 from pydantic import UUID4, BaseModel
 
-from sparkly.app.adapters.db.postgres.session import SESSION_FACTORY
+from sparkly.app.containers import SparklyContainer
 from sparkly.app.domain import commands, queries
 from sparkly.app.seedwork.service_layer import message_buses
-from sparkly.app.service_layer import command_handlers, query_handlers, uow
 
 router = APIRouter(prefix="/vehicle_data")
 
-UNIT_OF_WORK = uow.VehicleUnitOfWork(session_factory=SESSION_FACTORY)
-COMMAND_BUS = message_buses.CommandBus(
-    handlers={
-        commands.AddVehicleLog: command_handlers.AddVehicleLog(uow=UNIT_OF_WORK),
-        commands.AddVehicle: command_handlers.AddVehicle(uow=UNIT_OF_WORK),
-    }
-)
-QUERY_BUS = message_buses.QueryBus(handlers={queries.GetVehicleLogs: query_handlers.GetVehicleLogs(uow=UNIT_OF_WORK)})
-
 
 @router.get("/{vehicle_id}")
-async def get_vehicle_logs(vehicle_id: UUID4):
-    result = await QUERY_BUS.handle(message=queries.GetVehicleLogs(vehicle_id=vehicle_id, limit=10))
-    return {"data": result.result}
+@inject
+async def get_vehicle_logs(
+    vehicle_id: UUID4, query_bus: message_buses.QueryBus = Depends(Provide[SparklyContainer.message_busses.query])
+):
+    result = await query_bus.handle(message=queries.GetVehicleLogs(vehicle_id=vehicle_id, limit=10))
+    return {"count": len(result.result), "data": result.result}
 
 
 class CreateVehicleRequest(BaseModel):
@@ -29,8 +23,12 @@ class CreateVehicleRequest(BaseModel):
 
 
 @router.post("/")
-async def create_vehicle(request: CreateVehicleRequest):
-    await COMMAND_BUS.handle(message=commands.AddVehicle(vehicle_id=request.vehicle_id))
+@inject
+async def create_vehicle(
+    request: CreateVehicleRequest,
+    command_bus: message_buses.CommandBus = Depends(Provide[SparklyContainer.message_busses.command]),
+):
+    await command_bus.handle(message=commands.AddVehicle(vehicle_id=request.vehicle_id))
     return None
 
 
@@ -44,8 +42,13 @@ class CreateVehicleLogRequest(BaseModel):
 
 
 @router.post("/{vehicle_id}")
-async def create_vehicle_log(vehicle_id: UUID4, log: CreateVehicleLogRequest):
-    await COMMAND_BUS.handle(
+@inject
+async def create_vehicle_log(
+    vehicle_id: UUID4,
+    log: CreateVehicleLogRequest,
+    command_bus: message_buses.CommandBus = Depends(Provide[SparklyContainer.message_busses.command]),
+):
+    await command_bus.handle(
         message=commands.AddVehicleLog(vehicle_id=vehicle_id, log=commands.VehicleLog(**log.dict()))
     )
     return None

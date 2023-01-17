@@ -2,7 +2,7 @@ from easy_profile import SessionProfiler, StreamReporter
 from fastapi import FastAPI, Request, Response
 from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoint
 
-from sparkly.config import settings
+from sparkly.app.config import settings
 
 
 class ProfilerMiddleware(BaseHTTPMiddleware):
