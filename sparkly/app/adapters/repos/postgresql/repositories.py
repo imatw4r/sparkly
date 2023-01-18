@@ -15,24 +15,21 @@ class VehicleNotFound(exceptions.DomainValidationError):
 class VehicleRepository(adapters.SQLAlchemyRepository[entities.Vehicle]):
     async def get(self, id_: UUID4) -> entities.Vehicle | None:
         stmnt = select(entities.Vehicle).where(entities.Vehicle.id == id_)
-        result = await self.session.execute(stmnt)
-        return result.scalar()
+        return await self.session.scalar(stmnt)
 
     async def add_log(self, vehicle_id: UUID4, log: value_objects.VehicleLog) -> None:
         vehicle = await self.get(id_=vehicle_id)
         if vehicle is None:
             raise VehicleNotFound(vehicle_id=vehicle_id)
-
         vehicle.add_logs([log])
 
     async def get_logs(self, vehicle_id: UUID4) -> list[value_objects.VehicleLog]:
         vehicle = await self.get(id_=vehicle_id)
         if not vehicle:
             raise VehicleNotFound(vehicle_id=vehicle_id)
-
         return vehicle.logs
 
     async def list_vehicles(self) -> list[entities.Vehicle]:
         stmnt = select(entities.Vehicle)
-        result = await self.session.execute(stmnt)
-        return result.scalars().unique().all()
+        result = await self.session.scalars(stmnt)
+        return result.unique().all()
