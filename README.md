@@ -59,6 +59,11 @@ docker-compose up --build app
 
 Go to `http://localhost:8000/docs` to see available endpoints.
 
+To execute tests
+
+```bash
+poe test
+```
 
 # Information 
 
@@ -76,4 +81,4 @@ Go to `http://localhost:8000/docs` to see available endpoints.
 - [ ] Add Cassandra database support
 - [ ] Add endpoint validation
 - [ ] Add more tests
-- [ ] Cleanup resources after tests
+- [x] Cleanup resources after tests
