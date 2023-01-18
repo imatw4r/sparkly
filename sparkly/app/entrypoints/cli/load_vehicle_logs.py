@@ -44,14 +44,18 @@ async def load_vehicle_logs(
     try:
         await bus.handle(message=cmd_create_vehicle)
     except Exception:
+        # Vehicle already exist, not handled yet in domain
         pass
 
-    for line_no, log in enumerate(logs, 1):
+    for line_no, log in enumerate(logs, 2):
         cmd_load_logs = commands.AddVehicleLog(vehicle_id=vehicle_id, log=log)
         try:
             await bus.handle(message=cmd_load_logs)
         except exceptions.DomainValidationError as e:
-            logger.error("Failed to insert log from file %s at line %s.\nError: %s", str(path), line_no, e)
+            logger.exception(
+                "Failed to insert log from file %s at line %s.\nError: %s", str(path), line_no, e, exc_info=True
+            )
+            break
 
 
 @click.command()
