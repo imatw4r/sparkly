@@ -1,6 +1,5 @@
 import pytest
 from fastapi import FastAPI
-from fastapi.testclient import TestClient
 from httpx import AsyncClient
 
 from sparkly.app.entrypoints.http.fastapi.main import app as api
