@@ -46,7 +46,7 @@ exclude = [
   "cdk.out",
   "dist",
   "venv",
-  "alembic",
+  "**/alembic/**",
 ]
 format = "grouped"
 max_complexity = 18
