@@ -40,16 +40,21 @@ pre-commit install
 To start the application 
 
 ```bash
+# Create your own settings
 cp env.example .env
-docker-compose up --build
+
+# Start database
+docker-compose up -d postgres
+
+# Apply migrations (ensure that database is already started)
+alembic upgrade heads
+
+# Load example data
+# When asked to enter path, press enter
+poe load-data
+
+# Setup and build application
+docker-compose up --build app
 ```
 
 Go to `http://localhost:8000/docs` to see available endpoints.
-
-To load example data execute:
-
-```bash
-poe load-data
-```
-
-When asked to enter the path, press enter to load example data.
