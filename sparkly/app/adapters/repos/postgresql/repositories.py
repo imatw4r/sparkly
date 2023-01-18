@@ -1,6 +1,5 @@
 from pydantic import UUID4
 from sqlalchemy import select
-from sqlalchemy.orm import contains_eager
 
 from sparkly.app.domain import entities, value_objects
 from sparkly.app.seedwork import adapters

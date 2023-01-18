@@ -1,6 +1,4 @@
-from pydantic import UUID4
-
-from sparkly.app.domain import queries, value_objects
+from sparkly.app.domain import entities, queries, value_objects
 from sparkly.app.seedwork import service_layer
 from sparkly.app.seedwork.service_layer import mixins
 from sparkly.app.service_layer import uow
@@ -21,12 +19,12 @@ class GetVehicleLogs(
 
 class ListVehicles(
     mixins.SQLAlchemyUnitOfWorkMixin[uow.VehicleUnitOfWork],
-    service_layer.QueryHandler[queries.ListVehicles, list[value_objects.VehicleLog]],
+    service_layer.QueryHandler[queries.ListVehicles, list[entities.Vehicle]],
 ):
     async def __call__(
         self,
         query: queries.ListVehicles,
-    ) -> service_layer.HandlerResult[list[UUID4]]:
+    ) -> service_layer.HandlerResult[list[entities.Vehicle]]:
         async with self.uow:
             vehicle_ids = await self.uow.repository.list_vehicles()
             return service_layer.HandlerResult(result=vehicle_ids)

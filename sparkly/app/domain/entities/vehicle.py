@@ -1,6 +1,6 @@
 import uuid
 
-from pydantic import UUID4, Field
+from pydantic import UUID4
 from pydantic.dataclasses import dataclass
 
 from sparkly.app.domain import value_objects

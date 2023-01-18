@@ -4,7 +4,7 @@ from fastapi_pagination import Page, add_pagination, paginate
 from pydantic import UUID4, BaseModel
 
 from sparkly.app.containers import SparklyContainer
-from sparkly.app.domain import commands, entities, queries
+from sparkly.app.domain import commands, queries
 from sparkly.app.seedwork.service_layer import message_buses
 
 router = APIRouter(prefix="/vehicle")
