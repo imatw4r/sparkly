@@ -3,6 +3,7 @@ from typing import Any
 from pydantic import BaseModel
 
 from sparkly.app.seedwork import domain
+from sparkly.app.seedwork.domain import exceptions
 
 from .. import value_objects
 
@@ -30,20 +31,27 @@ class VehicleLog(
 
     @classmethod
     def convert_attrs(cls, attrs: VehicleLogAttrs) -> dict[str, Any]:
-        timestamp = value_objects.Timestamp(value=attrs.timestamp)
-        speed = value_objects.VehicleSpeed(
-            value=attrs.speed,
-        )
-        odometer = value_objects.Odometer(value=attrs.odometer)
-        soc = value_objects.StateOfCharge(value=attrs.state_of_charge)
-        elevation = value_objects.Elevation(value=attrs.elevation)
+        try:
+            timestamp = value_objects.TimestampValue.fromisoformat(attrs.timestamp)
+        except ValueError:
+            raise exceptions.DomainValidationError(f"Invalid timestamp format: {attrs.timestamp!r}")
+
+        speed = value_objects.VehicleSpeedValue(attrs.speed) if attrs.speed else None
+        odometer = value_objects.OdometerValue(attrs.odometer)
+        soc = value_objects.StateOfChargeValue(attrs.state_of_charge)
+        elevation = value_objects.ElevationValue(attrs.elevation)
         state = value_objects.ShiftStateValue(attrs.shift_state) if attrs.shift_state else None
-        shift_state = value_objects.ShiftState(value=state)
-        return {
-            "timestamp": timestamp,
-            "speed": speed,
-            "odometer": odometer,
-            "state_of_charge": soc,
-            "elevation": elevation,
-            "shift_state": shift_state,
-        }
+        shift_state = value_objects.ShiftStateValue(state) if state is not None else None
+
+        log = cls.domain_class(
+            timestamp=timestamp,
+            speed=speed,
+            odometer=odometer,
+            state_of_charge=soc,
+            elevation=elevation,
+            shift_state=shift_state,
+        )
+
+        print(log.as_dict())
+
+        return log.as_dict()

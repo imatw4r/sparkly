@@ -23,5 +23,11 @@ class AddVehicleLog(domain.Command):
 
 
 @attrs.define()
+class AddVehicleLogBatch(domain.Command):
+    vehicle_id: UUID4
+    log: list[VehicleLog]
+
+
+@attrs.define()
 class AddVehicle(domain.Command):
     vehicle_id: UUID4

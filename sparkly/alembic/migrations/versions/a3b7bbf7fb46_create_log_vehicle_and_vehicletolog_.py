@@ -1,19 +1,17 @@
-"""Create Vehicle and Vehicle Logs tables.
+"""Create Log, Vehicle and VehicleToLog table.
 
-Revision ID: 52454f47d3eb
+Revision ID: a3b7bbf7fb46
 Revises: 
-Create Date: 2023-01-17 18:46:01.715268
+Create Date: 2023-01-18 15:23:35.654725
 
 """
 from alembic import op
 import sqlalchemy as sa
-import sparkly.app.utils.sqlalchemy
 
 from sqlalchemy.dialects import postgresql
-from sparkly.app.domain import value_objects
 
 # revision identifiers, used by Alembic.
-revision = "52454f47d3eb"
+revision = "a3b7bbf7fb46"
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -24,34 +22,16 @@ def upgrade() -> None:
     op.create_table(
         "log",
         sa.Column("id", postgresql.UUID(as_uuid=True), nullable=False),
-        sa.Column(
-            "timestamp",
-            sparkly.app.utils.sqlalchemy.PydanticType(pydantic_class=value_objects.Timestamp),
-            nullable=True,
-        ),
-        sa.Column(
-            "speed",
-            sparkly.app.utils.sqlalchemy.PydanticType(pydantic_class=value_objects.VehicleSpeed),
-            nullable=True,
-        ),
-        sa.Column(
-            "odometer", sparkly.app.utils.sqlalchemy.PydanticType(pydantic_class=value_objects.Odometer), nullable=True
-        ),
-        sa.Column(
-            "state_of_charge",
-            sparkly.app.utils.sqlalchemy.PydanticType(pydantic_class=value_objects.StateOfCharge),
-            nullable=True,
-        ),
-        sa.Column(
-            "elevation",
-            sparkly.app.utils.sqlalchemy.PydanticType(pydantic_class=value_objects.Elevation),
-            nullable=True,
-        ),
-        sa.Column(
-            "shift_state",
-            sparkly.app.utils.sqlalchemy.PydanticType(pydantic_class=value_objects.ShiftState),
-            nullable=True,
-        ),
+        sa.Column("timestamp", sa.DateTime(timezone=True), nullable=False),
+        sa.Column("timestamp_format", sa.String(length=40), server_default="ISO8601", nullable=False),
+        sa.Column("speed", sa.Integer(), nullable=True),
+        sa.Column("speed_unit", sa.String(length=20), nullable=True),
+        sa.Column("odometer", sa.DECIMAL(precision=10, scale=2), nullable=False),
+        sa.Column("odometer_unit", sa.String(length=20), nullable=False),
+        sa.Column("state_of_charge", sa.Integer(), nullable=False),
+        sa.Column("elevation", sa.Integer(), nullable=False),
+        sa.Column("elevation_unit", sa.String(length=20), nullable=False),
+        sa.Column("shift_state", sa.String(length=1), nullable=True),
         sa.PrimaryKeyConstraint("id"),
     )
     op.create_table(

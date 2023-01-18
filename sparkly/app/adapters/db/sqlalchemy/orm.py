@@ -1,11 +1,10 @@
 import uuid
 
-from sqlalchemy import Column, ForeignKey, Table
+from sqlalchemy import DECIMAL, Column, DateTime, ForeignKey, Integer, String, Table
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import registry, relationship
 
 from sparkly.app.domain import entities, value_objects
-from sparkly.app.utils.sqlalchemy import PydanticType
 
 mapper_registry = registry()
 metadata = mapper_registry.metadata
@@ -19,24 +18,16 @@ log_table = Table(
         default=uuid.uuid4,
         primary_key=True,
     ),
-    Column(
-        "timestamp",
-        PydanticType(pydantic_class=value_objects.Timestamp),
-    ),
-    Column("speed", PydanticType(pydantic_class=value_objects.VehicleSpeed)),
-    Column(
-        "odometer",
-        PydanticType(pydantic_class=value_objects.Odometer),
-    ),
-    Column(
-        "state_of_charge",
-        PydanticType(pydantic_class=value_objects.StateOfCharge),
-    ),
-    Column(
-        "elevation",
-        PydanticType(pydantic_class=value_objects.Elevation),
-    ),
-    Column("shift_state", PydanticType(pydantic_class=value_objects.ShiftState)),
+    Column("timestamp", DateTime(timezone=True), nullable=False),
+    Column("timestamp_format", String(length=40), nullable=False, server_default="ISO8601"),
+    Column("speed", Integer()),
+    Column("speed_unit", String(length=20)),
+    Column("odometer", DECIMAL(precision=10, scale=2), nullable=False),
+    Column("odometer_unit", String(length=20), nullable=False),
+    Column("state_of_charge", Integer(), nullable=False),
+    Column("elevation", Integer(), nullable=False),
+    Column("elevation_unit", String(length=20), nullable=False),
+    Column("shift_state", String(length=1)),
 )
 
 vehicle_table = Table(
