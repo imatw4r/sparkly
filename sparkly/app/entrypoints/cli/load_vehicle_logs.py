@@ -17,11 +17,13 @@ ROOT_DIR = Path(__file__).parent.parent.parent.parent.parent
 logger = logging.Logger(__name__)
 
 
-def read_csv(path: str) -> Iterable[commands.VehicleLog]:
+def read_csv(path: Path) -> Iterable[commands.VehicleLog]:
     with open(ROOT_DIR / path, "r") as fp:
         reader = csv.DictReader(fp)
+        vehicle_id = path.stem
         for line in reader:
             log = commands.VehicleLog(
+                vehicle_id=vehicle_id,
                 timestamp=line["timestamp"],
                 speed=int(line["speed"]) if line["speed"] != "NULL" else None,
                 odometer=float(line["odometer"]),
@@ -38,7 +40,7 @@ async def load_vehicle_logs(
     bus: CommandBus = Provide[SparklyContainer.message_busses.command],
 ) -> None:
     vehicle_id = UUID4(path.stem)
-    logs = list(read_csv(str(path)))
+    logs = list(read_csv(path))
 
     cmd_create_vehicle = commands.AddVehicle(vehicle_id=vehicle_id)
     try:
@@ -48,7 +50,7 @@ async def load_vehicle_logs(
         pass
 
     for line_no, log in enumerate(logs, 2):
-        cmd_load_logs = commands.AddVehicleLog(vehicle_id=vehicle_id, log=log)
+        cmd_load_logs = commands.AddVehicleLog(log=log)
         try:
             await bus.handle(message=cmd_load_logs)
         except exceptions.DomainValidationError as e:
