@@ -30,7 +30,7 @@ class VehicleRepository(adapters.SQLAlchemyRepository[entities.Vehicle]):
 
         self.session.add(log)
 
-    async def get_logs(self, vehicle_id: UUID4) -> list[value_objects.VehicleLog]:
+    async def get_vehicle_logs(self, vehicle_id: UUID4) -> list[value_objects.VehicleLog]:
         vehicle = await self.get(id_=vehicle_id)
         if not vehicle:
             raise VehicleNotFound(vehicle_id=vehicle_id)

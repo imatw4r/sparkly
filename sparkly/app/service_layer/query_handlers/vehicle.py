@@ -13,7 +13,7 @@ class GetVehicleLogs(
         query: queries.GetVehicleLogs,
     ) -> service_layer.HandlerResult[list[value_objects.VehicleLog]]:
         async with self.uow:
-            logs = await self.uow.repository.get_logs(vehicle_id=query.vehicle_id)
+            logs = await self.uow.repository.get_vehicle_logs(vehicle_id=query.vehicle_id)
             return service_layer.HandlerResult(result=logs)
 
 
