@@ -9,6 +9,7 @@ class AddVehicleLog(
 ):
     async def __call__(self, command: commands.AddVehicleLog) -> service_layer.HandlerResult[None]:
         attrs = factories.VehicleLogAttrs(
+            vehicle_id=str(command.log.vehicle_id),
             timestamp=command.log.timestamp,
             speed=command.log.speed,
             odometer=command.log.odometer,
@@ -18,7 +19,7 @@ class AddVehicleLog(
         )
         vehicle_log = factories.VehicleLog.create_from(attrs=attrs)
         async with self.uow:
-            await self.uow.repository.add_log(vehicle_id=command.vehicle_id, log=vehicle_log)
+            await self.uow.repository.add_log(log=vehicle_log)
             await self.uow.commit()
             return service_layer.HandlerResult(result=None)
 

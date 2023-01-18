@@ -1,3 +1,6 @@
+from typing import Any
+
+from fastapi_pagination.ext.async_sqlalchemy import paginate
 from pydantic import UUID4
 from sqlalchemy import select
 
@@ -13,23 +16,28 @@ class VehicleNotFound(exceptions.DomainValidationError):
 
 
 class VehicleRepository(adapters.SQLAlchemyRepository[entities.Vehicle]):
+    def paginate_query(self, query: Any) -> Any:
+        return paginate(conn=self.session, query=query)
+
     async def get(self, id_: UUID4) -> entities.Vehicle | None:
         stmnt = select(entities.Vehicle).where(entities.Vehicle.id == id_)
         return await self.session.scalar(stmnt)
 
-    async def add_log(self, vehicle_id: UUID4, log: value_objects.VehicleLog) -> None:
-        vehicle = await self.get(id_=vehicle_id)
+    async def add_log(self, log: value_objects.VehicleLog) -> None:
+        vehicle = await self.get(id_=log.vehicle_id)
         if vehicle is None:
-            raise VehicleNotFound(vehicle_id=vehicle_id)
-        vehicle.add_logs([log])
+            raise VehicleNotFound(vehicle_id=log.vehicle_id)
+
+        self.session.add(log)
 
     async def get_logs(self, vehicle_id: UUID4) -> list[value_objects.VehicleLog]:
         vehicle = await self.get(id_=vehicle_id)
         if not vehicle:
             raise VehicleNotFound(vehicle_id=vehicle_id)
-        return vehicle.logs
+
+        query = select(value_objects.VehicleLog).where(value_objects.VehicleLog.vehicle_id == vehicle_id)
+        return self.paginate_query(query=query)
 
     async def list_vehicles(self) -> list[entities.Vehicle]:
-        stmnt = select(entities.Vehicle)
-        result = await self.session.scalars(stmnt)
-        return result.unique().all()
+        query = select(entities.Vehicle)
+        return self.paginate_query(query=query)
