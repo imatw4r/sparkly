@@ -21,6 +21,7 @@ class MessageBusContainer(containers.DeclarativeContainer):
         handlers=providers.Dict(
             {
                 queries.GetVehicleLogs: providers.Factory(query_handlers.GetVehicleLogs, uow=unit_of_work.vehicle),
+                queries.ListVehicles: providers.Factory(query_handlers.ListVehicles, uow=unit_of_work.vehicle),
             }
         ),
     )

@@ -1,5 +1,6 @@
 from pydantic import UUID4
 from sqlalchemy import select
+from sqlalchemy.orm import contains_eager
 
 from sparkly.app.domain import entities, value_objects
 from sparkly.app.seedwork import adapters
@@ -29,4 +30,10 @@ class VehicleRepository(adapters.SQLAlchemyRepository[entities.Vehicle]):
         vehicle = await self.get(id_=vehicle_id)
         if not vehicle:
             raise VehicleNotFound(vehicle_id=vehicle_id)
+
         return vehicle.logs
+
+    async def list_vehicles(self) -> list[entities.Vehicle]:
+        stmnt = select(entities.Vehicle)
+        result = await self.session.execute(stmnt)
+        return result.scalars().unique().all()

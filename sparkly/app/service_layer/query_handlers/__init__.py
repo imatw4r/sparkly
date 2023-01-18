@@ -1,1 +1,1 @@
-from .vehicle import GetVehicleLogs
+from .vehicle import GetVehicleLogs, ListVehicles
