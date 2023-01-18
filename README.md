@@ -36,3 +36,20 @@ Activating precommit
 ```bash
 pre-commit install
 ```
+
+To start the application 
+
+```bash
+cp env.example .env
+docker-compose up --build
+```
+
+Go to `http://localhost:8000/docs` to see available endpoints.
+
+To load example data execute:
+
+```bash
+poe load-data
+```
+
+When asked to enter the path, press enter to load example data.
