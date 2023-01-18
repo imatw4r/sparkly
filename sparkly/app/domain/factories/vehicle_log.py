@@ -9,6 +9,7 @@ from .. import value_objects
 
 
 class VehicleLogAttrs(BaseModel):
+    vehicle_id: str
     timestamp: str
     speed: int | None
     odometer: float
@@ -42,7 +43,7 @@ class VehicleLog(
         elevation = value_objects.ElevationValue(attrs.elevation)
         state = value_objects.ShiftStateValue(attrs.shift_state) if attrs.shift_state else None
         shift_state = value_objects.ShiftStateValue(state) if state is not None else None
-
+        vehicle_id = value_objects.VehicleIdValue(attrs.vehicle_id)
         log = cls.domain_class(
             timestamp=timestamp,
             speed=speed,
@@ -50,8 +51,8 @@ class VehicleLog(
             state_of_charge=soc,
             elevation=elevation,
             shift_state=shift_state,
+            vehicle_id=vehicle_id,
+            speed_unit=value_objects.VehicleSpeedUnitEnum.km_per_hour if speed else None,
         )
-
-        print(log.as_dict())
 
         return log.as_dict()

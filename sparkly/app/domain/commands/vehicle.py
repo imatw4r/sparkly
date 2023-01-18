@@ -8,6 +8,7 @@ from sparkly.app.seedwork import domain
 # as business logic may evolve separately
 @attrs.define()
 class VehicleLog:
+    vehicle_id: str
     timestamp: str
     speed: int | None
     odometer: float
@@ -18,13 +19,11 @@ class VehicleLog:
 
 @attrs.define()
 class AddVehicleLog(domain.Command):
-    vehicle_id: UUID4
     log: VehicleLog
 
 
 @attrs.define()
 class AddVehicleLogBatch(domain.Command):
-    vehicle_id: UUID4
     log: list[VehicleLog]
 
 

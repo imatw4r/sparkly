@@ -3,7 +3,7 @@ from decimal import Decimal
 from enum import Enum
 from typing import TYPE_CHECKING, TypeAlias
 
-from pydantic import condecimal, conint, root_validator
+from pydantic import UUID4, condecimal, conint, root_validator
 from pydantic.dataclasses import dataclass
 
 from sparkly.app.seedwork import domain
@@ -20,6 +20,7 @@ else:
 
 TimestampValue: TypeAlias = datetime
 ElevationValue: TypeAlias = int
+VehicleIdValue: TypeAlias = UUID4
 
 
 class ShiftStateValue(str, Enum):
@@ -42,8 +43,9 @@ class ElevationUnitEnum(str, Enum):
 
 @dataclass()
 class VehicleLog(domain.ValueObject):
+    vehicle_id: VehicleIdValue
     timestamp: TimestampValue
-    elevation: int
+    elevation: ElevationValue
 
     odometer: OdometerValue
     speed: VehicleSpeedValue | None
@@ -53,7 +55,7 @@ class VehicleLog(domain.ValueObject):
     timestamp_format: str = "ISO8601"
     elevation_unit: ElevationUnitEnum = ElevationUnitEnum.meter
     odometer_unit: OdometerUnitEnum = OdometerUnitEnum.km
-    speed_unit: VehicleSpeedUnitEnum = VehicleSpeedUnitEnum.km_per_hour
+    speed_unit: VehicleSpeedUnitEnum | None = VehicleSpeedUnitEnum.km_per_hour
 
     @root_validator()
     def validate(cls, values):
