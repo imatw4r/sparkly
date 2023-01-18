@@ -16,7 +16,7 @@ def create_app() -> FastAPI:
     )
 
     app = FastAPI()
-    app.container = container
+    app.container = container  # type: ignore
     app.include_router(api_v1)
 
     setup_signals(app=app)
