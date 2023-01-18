@@ -11,6 +11,7 @@ def create_app() -> FastAPI:
         modules=[
             "sparkly.app.entrypoints.http.fastapi.signals",
             "sparkly.app.entrypoints.http.fastapi.v1.endpoints.vehicle",
+            "sparkly.app.entrypoints.http.fastapi.v1.endpoints.vehicle_logs",
         ]
     )
 
