@@ -58,3 +58,22 @@ docker-compose up --build app
 ```
 
 Go to `http://localhost:8000/docs` to see available endpoints.
+
+
+# Information 
+
+## Functionality:
+
+- [x] Create Vehicle
+- [x] Create Vehicle Log
+- [x] Get Vehicle Logs by Vehicle ID
+- [x] List Vehicles
+- [x] Load Vehicle Logs from CSV
+- [ ] Filter Logs by timestamp
+
+## To be done:
+
+- [ ] Add Cassandra database support
+- [ ] Add endpoint validation
+- [ ] Add more tests
+- [ ] Cleanup resources after tests
