@@ -1,7 +1,11 @@
+from sqlalchemy import exc as db_exceptions
+
 from sparkly.app.domain import commands, entities, factories
 from sparkly.app.seedwork import service_layer
 from sparkly.app.seedwork.service_layer import mixins
 from sparkly.app.service_layer import uow
+
+from .exceptions import VehicleAlreadyExists
 
 
 class AddVehicleLog(
@@ -32,5 +36,8 @@ class AddVehicle(
 
         async with self.uow:
             self.uow.repository.add(entity=vehicle)
-            await self.uow.commit()
+            try:
+                await self.uow.commit()
+            except db_exceptions.IntegrityError:
+                raise VehicleAlreadyExists(vehicle_id=str(command.vehicle_id))
             return service_layer.HandlerResult(result=None)
