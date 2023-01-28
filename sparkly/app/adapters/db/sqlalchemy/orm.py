@@ -1,10 +1,16 @@
 import uuid
 
-from sqlalchemy import DECIMAL, Column, DateTime, Integer, String, Table
+from sqlalchemy import Column
+from sqlalchemy import DateTime
+from sqlalchemy import DECIMAL
+from sqlalchemy import Integer
+from sqlalchemy import String
+from sqlalchemy import Table
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import registry
 
-from sparkly.app.domain import entities, value_objects
+from sparkly.app.domain import entities
+from sparkly.app.domain import value_objects
 
 mapper_registry = registry()
 metadata = mapper_registry.metadata

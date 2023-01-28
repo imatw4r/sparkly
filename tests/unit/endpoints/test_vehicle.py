@@ -1,10 +1,11 @@
 import pytest
-from fastapi import FastAPI, status
+from fastapi import FastAPI
+from fastapi import status
 from httpx import AsyncClient
 from pydantic import UUID4
 
 from sparkly.app.domain import commands
-from tests.integration.conftest import TestCommandBus
+from tests.conftest import TestCommandBus
 
 pytestmark = pytest.mark.asyncio
 
@@ -19,5 +20,5 @@ class TestCreateVehicle:
 
             assert res.status_code == status.HTTP_201_CREATED
             assert command_bus.commands[0] == commands.AddVehicle(
-                vehicle_id=UUID4("03103e56-ba9b-4c79-830a-4018e2f4962c")
+                vehicle_id=UUID4("03103e56-ba9b-4c79-830a-4018e2f4962c"),
             )

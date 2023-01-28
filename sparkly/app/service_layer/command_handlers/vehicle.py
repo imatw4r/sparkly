@@ -1,15 +1,17 @@
 from sqlalchemy import exc as db_exceptions
 
-from sparkly.app.domain import commands, entities, factories
+from .exceptions import VehicleAlreadyExists
+from sparkly.app.domain import commands
+from sparkly.app.domain import entities
+from sparkly.app.domain import factories
 from sparkly.app.seedwork import service_layer
 from sparkly.app.seedwork.service_layer import mixins
 from sparkly.app.service_layer import uow
 
-from .exceptions import VehicleAlreadyExists
-
 
 class AddVehicleLog(
-    mixins.SQLAlchemyUnitOfWorkMixin[uow.VehicleUnitOfWork], service_layer.CommandHandler[commands.AddVehicleLog]
+    mixins.SQLAlchemyUnitOfWorkMixin[uow.VehicleUnitOfWork],
+    service_layer.CommandHandler[commands.AddVehicleLog],
 ):
     async def __call__(self, command: commands.AddVehicleLog) -> service_layer.HandlerResult[None]:
         attrs = factories.VehicleLogAttrs(
@@ -29,7 +31,8 @@ class AddVehicleLog(
 
 
 class AddVehicle(
-    mixins.SQLAlchemyUnitOfWorkMixin[uow.VehicleUnitOfWork], service_layer.CommandHandler[commands.AddVehicle]
+    mixins.SQLAlchemyUnitOfWorkMixin[uow.VehicleUnitOfWork],
+    service_layer.CommandHandler[commands.AddVehicle],
 ):
     async def __call__(self, command: commands.AddVehicle) -> service_layer.HandlerResult[None]:
         vehicle = entities.Vehicle(id=command.vehicle_id)

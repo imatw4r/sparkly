@@ -1,9 +1,12 @@
 import json
 from typing import Any
 
-from dependency_injector import containers, providers
+from dependency_injector import containers
+from dependency_injector import providers
 from pydantic.json import pydantic_encoder
-from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, create_async_engine
+from sqlalchemy.ext.asyncio import AsyncEngine
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.ext.asyncio import create_async_engine
 from sqlalchemy.orm import sessionmaker
 
 from sparkly.app.config import settings

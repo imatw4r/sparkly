@@ -1,6 +1,8 @@
-from pydantic import BaseModel, UUID4
 from datetime import datetime
 from decimal import Decimal
+
+from pydantic import BaseModel
+from pydantic import UUID4
 
 
 class VehicleLog(BaseModel):

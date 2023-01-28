@@ -1,1 +1,4 @@
-from .vehicle import AddVehicle, AddVehicleLog, AddVehicleLogBatch, VehicleLog
+from .vehicle import AddVehicle
+from .vehicle import AddVehicleLog
+from .vehicle import AddVehicleLogBatch
+from .vehicle import VehicleLog

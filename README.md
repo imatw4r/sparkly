@@ -37,7 +37,7 @@ Activating precommit
 pre-commit install
 ```
 
-To start the application 
+To start the application
 
 ```bash
 # Create your own settings
@@ -65,7 +65,7 @@ To execute tests
 poe test
 ```
 
-# Information 
+# Information
 
 ## Functionality:
 

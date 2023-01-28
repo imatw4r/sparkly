@@ -1,4 +1,6 @@
-from sparkly.app.domain import entities, queries, value_objects
+from sparkly.app.domain import entities
+from sparkly.app.domain import queries
+from sparkly.app.domain import value_objects
 from sparkly.app.seedwork import service_layer
 from sparkly.app.seedwork.service_layer import mixins
 from sparkly.app.service_layer import uow

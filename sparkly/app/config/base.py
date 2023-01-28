@@ -1,6 +1,8 @@
 from typing import Any
 
-from pydantic import BaseSettings, PostgresDsn, SecretStr
+from pydantic import BaseSettings
+from pydantic import PostgresDsn
+from pydantic import SecretStr
 
 
 class LoggerSettings(BaseSettings):

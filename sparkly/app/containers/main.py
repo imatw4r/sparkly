@@ -1,4 +1,5 @@
-from dependency_injector import containers, providers
+from dependency_injector import containers
+from dependency_injector import providers
 
 from .core import CoreContainer
 from .database import PostgresContainer

@@ -1,9 +1,13 @@
 from datetime import datetime
 from decimal import Decimal
 from enum import Enum
-from typing import TYPE_CHECKING, TypeAlias
+from typing import TYPE_CHECKING
+from typing import TypeAlias
 
-from pydantic import UUID4, condecimal, conint, root_validator
+from pydantic import condecimal
+from pydantic import conint
+from pydantic import root_validator
+from pydantic import UUID4
 from pydantic.dataclasses import dataclass
 
 from sparkly.app.seedwork import domain

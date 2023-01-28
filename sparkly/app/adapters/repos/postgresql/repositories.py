@@ -5,7 +5,8 @@ from fastapi_pagination.ext.async_sqlalchemy import paginate
 from pydantic import UUID4
 from sqlalchemy import select
 
-from sparkly.app.domain import entities, value_objects
+from sparkly.app.domain import entities
+from sparkly.app.domain import value_objects
 from sparkly.app.seedwork import adapters
 from sparkly.app.seedwork.domain import exceptions
 

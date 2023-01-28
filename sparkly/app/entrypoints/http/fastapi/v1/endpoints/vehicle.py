@@ -1,10 +1,17 @@
-from dependency_injector.wiring import Provide, inject
-from fastapi import APIRouter, Depends, status, HTTPException
-from fastapi_pagination import Page, add_pagination
-from pydantic import UUID4, BaseModel
+from dependency_injector.wiring import inject
+from dependency_injector.wiring import Provide
+from fastapi import APIRouter
+from fastapi import Depends
+from fastapi import HTTPException
+from fastapi import status
+from fastapi_pagination import add_pagination
+from fastapi_pagination import Page
+from pydantic import BaseModel
+from pydantic import UUID4
 
 from sparkly.app.containers import SparklyContainer
-from sparkly.app.domain import commands, queries
+from sparkly.app.domain import commands
+from sparkly.app.domain import queries
 from sparkly.app.entrypoints.http.fastapi import models
 from sparkly.app.seedwork.service_layer import message_buses
 from sparkly.app.service_layer.command_handlers import VehicleAlreadyExists

@@ -1,10 +1,16 @@
-from dependency_injector.wiring import Provide, inject
-from fastapi import APIRouter, Depends, status
-from fastapi_pagination import Page, add_pagination
-from pydantic import UUID4, BaseModel
+from dependency_injector.wiring import inject
+from dependency_injector.wiring import Provide
+from fastapi import APIRouter
+from fastapi import Depends
+from fastapi import status
+from fastapi_pagination import add_pagination
+from fastapi_pagination import Page
+from pydantic import BaseModel
+from pydantic import UUID4
 
 from sparkly.app.containers import SparklyContainer
-from sparkly.app.domain import commands, queries
+from sparkly.app.domain import commands
+from sparkly.app.domain import queries
 from sparkly.app.entrypoints.http.fastapi import models
 from sparkly.app.seedwork.service_layer import message_buses
 
@@ -19,7 +25,8 @@ router = APIRouter(prefix="/vehicle_data")
 )
 @inject
 async def get_vehicle_logs(
-    vehicle_id: UUID4, query_bus: message_buses.QueryBus = Depends(Provide[SparklyContainer.message_busses.query])
+    vehicle_id: UUID4,
+    query_bus: message_buses.QueryBus = Depends(Provide[SparklyContainer.message_busses.query]),
 ):
     result = await query_bus.handle(message=queries.GetVehicleLogs(vehicle_id=vehicle_id))
     return await result.result
@@ -51,8 +58,8 @@ async def create_vehicle_log(
                 state_of_charge=log.state_of_charge,
                 shift_state=log.shift_state,
                 elevation=log.elevation,
-            )
-        )
+            ),
+        ),
     )
     return result.result
 

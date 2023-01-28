@@ -1,10 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import Generic, TypeVar
+from abc import ABC
+from abc import abstractmethod
+from typing import Generic
+from typing import TypeVar
 
-from pydantic import ConfigDict, Field
+from pydantic import ConfigDict
+from pydantic import Field
 from pydantic.dataclasses import dataclass
 
-from .. import domain, service_layer
+from .. import domain
+from .. import service_layer
 
 T_message = TypeVar("T_message", bound=domain.Command | domain.Query)
 T_handler = TypeVar("T_handler", bound=service_layer.CommandHandler | service_layer.QueryHandler)

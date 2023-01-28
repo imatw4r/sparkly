@@ -1,8 +1,9 @@
-from dependency_injector.wiring import Provide, inject
+from dependency_injector.wiring import inject
+from dependency_injector.wiring import Provide
 from fastapi import FastAPI
+from sqlalchemy.ext.asyncio import AsyncEngine
 
 from sparkly.app.containers import SparklyContainer
-from sqlalchemy.ext.asyncio import AsyncEngine
 
 
 @inject

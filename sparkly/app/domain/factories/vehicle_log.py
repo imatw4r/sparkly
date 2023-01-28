@@ -2,10 +2,9 @@ from typing import Any
 
 from pydantic import BaseModel
 
+from .. import value_objects
 from sparkly.app.seedwork import domain
 from sparkly.app.seedwork.domain import exceptions
-
-from .. import value_objects
 
 
 class VehicleLogAttrs(BaseModel):

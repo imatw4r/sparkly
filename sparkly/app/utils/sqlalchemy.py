@@ -1,9 +1,12 @@
-from typing import Generic, TypeVar
+from typing import Generic
+from typing import TypeVar
 
 from fastapi.encoders import jsonable_encoder
-from pydantic import BaseModel, parse_obj_as
+from pydantic import BaseModel
+from pydantic import parse_obj_as
 from sqlalchemy.dialects.postgresql import JSONB
-from sqlalchemy.types import JSON, TypeDecorator
+from sqlalchemy.types import JSON
+from sqlalchemy.types import TypeDecorator
 
 T_pydantic = TypeVar("T_pydantic", bound=BaseModel)
 

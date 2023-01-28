@@ -1,6 +1,10 @@
-from easy_profile import SessionProfiler, StreamReporter
-from fastapi import FastAPI, Request, Response
-from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoint
+from easy_profile import SessionProfiler
+from easy_profile import StreamReporter
+from fastapi import FastAPI
+from fastapi import Request
+from fastapi import Response
+from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.middleware.base import RequestResponseEndpoint
 
 from sparkly.app.config import settings
 

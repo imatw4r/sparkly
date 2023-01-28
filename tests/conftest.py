@@ -3,7 +3,8 @@ from fastapi import FastAPI
 from httpx import AsyncClient
 
 from sparkly.app.entrypoints.http.fastapi.main import app as api
-from sparkly.app.seedwork import domain, service_layer
+from sparkly.app.seedwork import domain
+from sparkly.app.seedwork import service_layer
 
 
 class TestCommandBus(service_layer.CommandBus):

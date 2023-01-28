@@ -1,14 +1,16 @@
 import asyncio
 import csv
 import logging
+from collections.abc import Iterable
 from pathlib import Path
-from typing import Iterable
 
 import click
-from dependency_injector.wiring import Provide, inject
+from dependency_injector.wiring import inject
+from dependency_injector.wiring import Provide
 from pydantic import UUID4
 
-from sparkly.app.containers import SparklyContainer, init_main_container
+from sparkly.app.containers import init_main_container
+from sparkly.app.containers import SparklyContainer
 from sparkly.app.domain import commands
 from sparkly.app.seedwork.domain import exceptions
 from sparkly.app.seedwork.service_layer import CommandBus
@@ -18,7 +20,7 @@ logger = logging.Logger(__name__)
 
 
 def read_csv(path: Path) -> Iterable[commands.VehicleLog]:
-    with open(ROOT_DIR / path, "r") as fp:
+    with open(ROOT_DIR / path) as fp:
         reader = csv.DictReader(fp)
         vehicle_id = path.stem
         for line in reader:
@@ -55,7 +57,11 @@ async def load_vehicle_logs(
             await bus.handle(message=cmd_load_logs)
         except exceptions.DomainValidationError as e:
             logger.exception(
-                "Failed to insert log from file %s at line %s.\nError: %s", str(path), line_no, e, exc_info=True
+                "Failed to insert log from file %s at line %s.\nError: %s",
+                str(path),
+                line_no,
+                e,
+                exc_info=True,
             )
             break
 

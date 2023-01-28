@@ -2,7 +2,8 @@ from __future__ import annotations
 
 import abc
 from types import TracebackType
-from typing import Generic, Optional, Type, TypeVar
+from typing import Generic
+from typing import TypeVar
 
 from sqlalchemy.orm import sessionmaker
 
@@ -19,9 +20,9 @@ class UnitOfWork(abc.ABC, Generic[adapters.T_repository]):
     @abc.abstractmethod
     async def __aexit__(
         self,
-        exc_type: Optional[Type[BaseException]],
-        exc: Optional[BaseException],
-        traceback: Optional[TracebackType],
+        exc_type: type[BaseException] | None,
+        exc: BaseException | None,
+        traceback: TracebackType | None,
     ) -> None:
         ...
 
@@ -32,7 +33,7 @@ class SQLAlchemyUnitOfWork(UnitOfWork[adapters.T_sqlalchemy_repository], Generic
 
     @property
     @abc.abstractmethod
-    def repository_cls(self) -> Type[adapters.T_sqlalchemy_repository]:
+    def repository_cls(self) -> type[adapters.T_sqlalchemy_repository]:
         ...
 
     async def commit(self) -> None:
@@ -45,9 +46,9 @@ class SQLAlchemyUnitOfWork(UnitOfWork[adapters.T_sqlalchemy_repository], Generic
 
     async def __aexit__(
         self,
-        exc_type: Optional[Type[BaseException]],
-        exc: Optional[BaseException],
-        traceback: Optional[TracebackType],
+        exc_type: type[BaseException] | None,
+        exc: BaseException | None,
+        traceback: TracebackType | None,
     ) -> None:
         if not self.session:
             return None

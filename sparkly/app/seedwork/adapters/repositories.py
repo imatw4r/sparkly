@@ -1,5 +1,6 @@
 import abc
-from typing import Generic, TypeVar
+from typing import Generic
+from typing import TypeVar
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
