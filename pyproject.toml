@@ -122,13 +122,13 @@ dependency-injector = "^4.41.0"
 colorlog = "^6.7.0"
 click = "^8.1.3"
 fastapi-pagination = "^0.11.2"
-databases = {extras = ["aiopg"], version = "^0.7.0"}
+databases = { extras = ["aiopg"], version = "^0.7.0" }
 
 
 [tool.poetry.group.dev.dependencies]
 black = "22.10.0"
 flakeheaven = "3.2.1"
-mypy = "0.990"
+mypy = "^0.990"
 isort = "^5.10.1"
 pyright = "^1.1.279"
 poethepoet = "^0.16.4"
